@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const connectDB = ()=>{
-    mongoose.connect(`${process.env.MONGODB_URI}/HMS`, {
+    mongoose.connect(`${process.env.MONGODB_URI}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })

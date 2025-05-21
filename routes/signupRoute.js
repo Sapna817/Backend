@@ -2,7 +2,7 @@ import express from "express";
 import createUser from "../controllers/usersControllers.js";
 import upload from '../middlewares/multer.js';
 import verifyToken from '../middlewares/verifyToken.js';
-import User from "../models/user.js"; 
+import User from "../models/user.js";
 
 const router = express.Router();
 
