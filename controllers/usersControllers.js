@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import validator from 'validator';
-import User from "../models/user.js"; 
+import User from "../models/User.js"; 
 import cloudinary from '../config/cloudinary.js';
 import fs from 'fs';
 
