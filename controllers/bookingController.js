@@ -44,3 +44,35 @@ export const getBookingsByDoctor = async (req, res) => {
   }
 };
 
+export const updateBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedBooking = await Booking.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedBooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    res.status(200).json(updatedBooking);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating booking", error });
+  }
+};
+
+export const deleteBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedBooking = await Booking.findByIdAndDelete(id);
+
+    if (!deletedBooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    res.status(200).json({ message: "Booking deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting booking", error });
+  }
+};
