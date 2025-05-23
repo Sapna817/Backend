@@ -34,3 +34,17 @@ export  const loginDoctor = async(req,res) =>{
     res.status(500).json({ success: false, message: error.message });
   }
 }
+
+export const getMe = async (req, res) => {
+  try {
+    const doctor = await Doctor.findById(req.doctorId).select("-password");
+    if (!doctor) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Doctor not found" });
+    }
+    res.status(200).json({ success: true, data: doctor });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
