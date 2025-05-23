@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const bookingSchema = new mongoose.Schema({
+  bookingId: String,
   name: String,
   email: String,
   phone: String,
