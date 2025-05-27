@@ -1,22 +1,53 @@
+// auth.js
 import jwt from 'jsonwebtoken';
+import Doctor from "../models/doctors.js";
 
-const authAdmin = async(req,res,next)=>{
+// Doctor Auth Middleware
+const authDoctor = async (req, res, next) => {
   try {
-    const token = req.headers
-    if(!token){
-      return res.json({success:false, message:'Unauthorized Login Again'})
-    }
-    const token_decode=jwt.verify(token, process.env.JWT_SECERT)
+    const token = req.headers.authorization?.split(" ")[1];
 
-    if(token_decode !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD){
-      return res.json({success:false, message:'Unauthorized Login Again'})
-    }
+    if (!token)
+      return res.status(401).json({ message: "Access denied. No token provided." });
 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const doctor = await Doctor.findOne({ email: decoded.email });
 
+    if (!doctor)
+      return res.status(401).json({ message: "Doctor not found." });
+
+    req.doctor = doctor;
+    next();
   } catch (error) {
-    console.log(error);
-    res.json({success:false,message:error.message})
+    res.status(401).json({ message: "Invalid token", error: error.message });
   }
-}
+};
 
-export default authAdmin;
+// Admin Auth Middleware
+const authAdmin = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'Unauthorized. Login again.' });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Compare decoded email and password with admin credentials
+    const isAdmin = decoded.email === process.env.ADMIN_EMAIL && decoded.password === process.env.ADMIN_PASSWORD;
+
+    if (!isAdmin) {
+      return res.status(403).json({ success: false, message: 'Forbidden. Not an admin.' });
+    }
+
+    req.admin = true;
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ success: false, message: 'Invalid token', error: error.message });
+  }
+};
+
+// Named Exports
+export { authDoctor, authAdmin };
