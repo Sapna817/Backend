@@ -6,10 +6,12 @@ const bookingSchema = new mongoose.Schema({
   email: String,
   phone: String,
   doctor: String,
+  doctoremail: String,
+  fees: String,
   timeslot: String,
   date: String,
   message: String,
-  formType: String, 
+  formType: String,
 }, {
   timestamps: true
 });
