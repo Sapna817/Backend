@@ -34,7 +34,7 @@ import {
 } from "../controllers/doctorControllers.js";
 
 import { getBookingsForLoggedInDoctor } from "../controllers/bookingController.js";
-import authDoctor from "../middlewares/authAdmin.js"; 
+import {authDoctor} from "../middlewares/authAdmin.js"; 
 
 const router = express.Router();
 
