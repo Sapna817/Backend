@@ -48,7 +48,6 @@ router.get("/doctors", async (req, res) => {
   }
 });
 
-// Get doctor by name
 router.get("/doctors/name/:name", getDoctorByName);
 
 // Doctor login
